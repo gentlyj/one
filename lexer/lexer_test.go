@@ -1,11 +1,11 @@
 package lexer
 
 import (
-	"testing"
 	"one/token"
+	"testing"
 )
 
-func TestNextToken(t *testing.T){
+func TestNextToken(t *testing.T) {
 	input := `let five = 5;
 	let ten = 10;
 	
@@ -13,10 +13,22 @@ func TestNextToken(t *testing.T){
 	  x + y;
 	};
 	
-	let result = add(five, ten);`
+	let result = add(five, ten);
+	!-/*5;
+	5 < 10 > 5;
+	
+	if (5 < 10) {
+		return true;
+	} else {
+		return false;
+	}
+	
+	10 == 10;
+	10 != 9;
+	`
 
 	tests := []struct {
-		expectType token.TokenType
+		expectType    token.TokenType
 		expectLiteral string
 	}{
 		{token.LET, "let"},
@@ -99,20 +111,20 @@ func TestNextToken(t *testing.T){
 
 	t.Log("1")
 
-	for i, tt := range tests{
+	for i, tt := range tests {
 		tok := l.NextToken()
-		t.Log(tok.Literal);
+		t.Log(tok.Literal)
 		if tok.Type != tt.expectType {
 			t.Fatalf("tests[%d] - tokentype wrong. expected=%q, got=%q",
-i, tt.expectType, tok.Type)
+				i, tt.expectType, tok.Type)
 		}
 
 		if tok.Literal != tt.expectLiteral {
 			t.Fatalf("tests[%d] - literal wrong. expected=%q, got=%q",
-			i, tt.expectLiteral, tok.Literal)
-		}else{
+				i, tt.expectLiteral, tok.Literal)
+		} else {
 			t.Logf("tests[%d] - literal right. expected=%q, got=%q",
-			i, tt.expectLiteral, tok.Literal)
+				i, tt.expectLiteral, tok.Literal)
 		}
 	}
 }
