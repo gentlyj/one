@@ -22,28 +22,35 @@ type Program struct {
 	Statements []Statement
 }
 
-func (p *Program) TokenLiteral() string{
+func (p *Program) TokenLiteral() string {
 	if len(p.Statements) > 0 {
 		return p.Statements[0].TokenLiteral()
-	}else{
+	} else {
 		return ""
 	}
 }
 
 type LetStatement struct {
 	Token token.Token // the token.LET token
-	Name *Identifier
+	Name  *Identifier
 	Value Expression
 }
 
-func (ls *LetStatement) statementNode() {}
+type ReturnStatement struct {
+	Token       token.Token // the return token
+	ReturnValue Expression
+}
 
-func (ls *LetStatement) TokenLiteral() string { return ls.Token.Literal}
+func (ls *LetStatement) statementNode()    {}
+func (rs *ReturnStatement) statementNode() {}
+
+func (ls *LetStatement) TokenLiteral() string    { return ls.Token.Literal }
+func (rs *ReturnStatement) TokenLiteral() string { return rs.Token.Literal }
 
 type Identifier struct {
 	Token token.Token // the token.IDENT token
 	Value string
 }
 
-func (i *Identifier) expressionNode() {}
-func (i *Identifier) TokenLiteral() string { return i.Token.Literal}
+func (i *Identifier) expressionNode()      {}
+func (i *Identifier) TokenLiteral() string { return i.Token.Literal }
